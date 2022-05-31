@@ -39,6 +39,7 @@ public class BulltinPrestationMapper implements Mapper<BulltinPrestationDTO, Bul
         dto.setIsDeleted(entity.getIsDeleted());
         dto.setValidated(entity.getValidated());
         dto.setIsfactured(entity.getIsfactured());
+        dto.setIsSent(entity.getIsSent());
         return dto;
     }
 
@@ -64,6 +65,7 @@ public class BulltinPrestationMapper implements Mapper<BulltinPrestationDTO, Bul
         entity.setIsDeleted(dto.getIsDeleted());
         entity.setValidated(dto.getValidated());
         entity.setIsfactured(dto.getIsfactured());
+        entity.setIsSent(dto.getIsSent());
         return entity;
     }
 

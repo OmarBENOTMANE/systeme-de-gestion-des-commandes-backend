@@ -3,7 +3,6 @@ package org.backend.gcmd.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.List;
 
 @Builder
@@ -23,9 +22,6 @@ public class NavireEntity {
     private Integer numeroEscale;
     private String consignataire;
     private String etat;
-
-    @OneToMany(mappedBy = "navire")
-    private List<MouvementEntity> mouvementList;
 
     @OneToMany(mappedBy = "navire")
     private List<EscaleEntity> escaleList;

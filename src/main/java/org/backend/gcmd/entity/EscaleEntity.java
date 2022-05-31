@@ -40,4 +40,7 @@ public class EscaleEntity {
     @OneToMany(mappedBy = "escale", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<CommandeEntity> commandeList;
 
+    @OneToMany(mappedBy = "escale")
+    private List<MouvementEntity> mouvementList;
+
 }

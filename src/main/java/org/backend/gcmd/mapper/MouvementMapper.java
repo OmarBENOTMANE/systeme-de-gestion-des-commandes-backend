@@ -24,6 +24,8 @@ public class MouvementMapper implements Mapper<MouvementDTO, MouvementEntity> {
         dto.setDateMouvement(entity.getDateMouvement());
         dto.setDescription(entity.getDescription());
         dto.setIsDeleted(entity.getIsDeleted());
+        if (entity.getEscale() != null)
+            dto.setEscaleId(entity.getEscale().getId());
         return dto;
     }
 

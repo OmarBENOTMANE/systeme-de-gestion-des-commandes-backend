@@ -1,8 +1,11 @@
 package org.backend.gcmd.service;
 
+import org.backend.gcmd.dto.BulltinPrestationDTO;
+import org.backend.gcmd.dto.EscaleDTO;
 import org.backend.gcmd.dto.MouvementDTO;
 import org.backend.gcmd.entity.MouvementEntity;
 import org.backend.gcmd.exceptions.technical.ObjectNotFoundException;
+import org.backend.gcmd.mapper.EscaleMapper;
 import org.backend.gcmd.mapper.MouvementMapper;
 import org.backend.gcmd.repository.MouvementRepository;
 import org.backend.gcmd.validator.Validate;
@@ -20,9 +23,13 @@ public class MouvementService {
 
     @Autowired
     private MouvementRepository mouvementRepository;
-
     @Autowired
     private MouvementMapper mouvementMapper;
+
+    @Autowired
+    private EscaleService escaleService;
+    @Autowired
+    private EscaleMapper escaleMapper;
 
     public MouvementDTO findById(Long id) {
         Validate.notNull(id, "id mus be not null");
@@ -46,6 +53,10 @@ public class MouvementService {
         Validate.notNull(dto.getId(), "MouvementDTO id must be not null");
         findById(dto.getId());
         MouvementEntity entity = mouvementMapper.convertToEntity(dto);
+        if (dto.getEscaleId() != null) {
+            EscaleDTO escaleDTO = escaleService.findById(dto.getEscaleId());
+            entity.setEscale(escaleMapper.convertToEntity(escaleDTO));
+        }
         MouvementEntity saved = mouvementRepository.save(entity);
         return mouvementMapper.convertToDto(saved);
     }

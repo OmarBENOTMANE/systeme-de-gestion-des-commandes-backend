@@ -1,6 +1,12 @@
 package org.backend.gcmd.service;
 
+import org.backend.gcmd.controller.EscaleController;
+import org.backend.gcmd.dto.CommandeDTO;
 import org.backend.gcmd.dto.EscaleDTO;
+import org.backend.gcmd.dto.MouvementDTO;
+import org.backend.gcmd.entity.CommandeEntity;
+import org.backend.gcmd.entity.EscaleEntity;
+import org.backend.gcmd.entity.MouvementEntity;
 import org.backend.gcmd.exceptions.technical.IllegalNullParamException;
 import org.backend.gcmd.exceptions.technical.ObjectNotFoundException;
 import org.junit.jupiter.api.Assertions;
@@ -12,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,6 +31,12 @@ class EscaleServiceTest {
 
     @Autowired
     EscaleService escaleService;
+
+    @Autowired
+    CommandeService commandeService;
+
+    @Autowired
+    EscaleController escaleController;
 
     @Test
     void serviceInjection() {
@@ -137,4 +150,27 @@ class EscaleServiceTest {
         assertEquals(false, eDTO.getIsDeleted());
     }
 
+    @Test
+    void findAllByIsDeletedFalse_KO() {
+        Page<EscaleDTO> page = escaleService.findAllByIsDeletedFalse(PageRequest.of(0, 10));
+        assertNotNull(page);
+        assertEquals(1, page.getContent().size());
+        EscaleDTO eDTO = page.getContent().get(0);
+        assertEquals(idescale, eDTO.getId());
+        assertNotEquals(true, eDTO.getIsDeleted());
+    }
+
+    @Test
+    void generateCmd   () {
+
+
+
+    }
+//    EscaleDTO edto = EscaleDTO.builder().id(idescale).navireId(1L).build();
+//        escaleService.update(edto);
+//    EscaleDTO result = escaleService.findById(idescale);
+//    assertNotNull(edto);
+//    assertEquals(idescale, result.getId());
+//    assertEquals(1L, result.getNavireId());
+//    assertEquals("navname", result.getNavireName());
 }

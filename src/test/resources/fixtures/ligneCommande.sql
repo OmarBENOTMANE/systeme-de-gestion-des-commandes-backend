@@ -1,9 +1,9 @@
 
 INSERT INTO gcmd_bulltin_prestation (id, code_client, code_nature, date, date_depot, date_probable_execution,
                                      description, heure, moyen_odep_client, nom_client, numero_cmd,
-                                     numero_dossier_prestation, numero_escale, pre_validation, text, type_paiement, is_deleted, validated, isfactured)
+                                     numero_dossier_prestation, numero_escale, pre_validation, text, type_paiement, is_deleted, validated, isfactured,is_sent)
 VALUES (1, 2, 22, '2022-05-04', '2022-04-20', '2022-04-13', 'blabla', '18:59:59', true, 'blabla', 222, 2222, 22222,
-        false, 'blabla', 1, false, false, false);
+        false, 'blabla', 1, false, false, false, false);
 
 INSERT INTO gcmd_navire (id, consignataire, etat,navire_name, numero_escale, is_deleted)
 VALUES (1, 'consi n', 'etat navire', 'navname', 2,false);
@@ -42,7 +42,7 @@ values (1, false, 'name soustypeprestation', 1);
 INSERT INTO gcmd_prestation (id, designation,is_deleted,type_prestation,type_tarif, soustypeprestation_id,tarif_id)
 values (1, 'desi pre1',false, 'prestation type', 'type tarif 1', 1, 1);
 
-insert into gcmd_ligne_commande (id,is_deleted,date,description,genlbp,heure,is_affected,nombre,designation_prestation,produit,sens_trafic,tarif_unifie,tc_conv,tc_suppl,tonnage_minimum,tonnage_reel,commande_id,prestation_id)
-values (1,false,'2022-04-26', 'descri lcmd', 1,'04:00:00', false,2, 'designationPrestation', 'prod', 'TRANSIT', false, false, 'tc_suppl', 4, 3,null,null);
+insert into gcmd_ligne_commande (id,is_deleted,date,description,genlbp,heure,is_affected,nombre,designation_prestation,produit,sens_trafic,tarif_unifie,tc_conv,tc_suppl,tonnage_minimum,tonnage_reel,commande_id,prestation_id,is_selected)
+values (1,false,'2022-04-26', 'descri lcmd', 1,'04:00:00', false,2, 'designationPrestation', 'prod', 'TRANSIT', false, false, 'tc_suppl', 4, 3,null,null,true);
 
 

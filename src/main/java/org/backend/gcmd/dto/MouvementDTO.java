@@ -19,7 +19,7 @@ public class MouvementDTO {
 
     private LocalDate dateMouvement;
 
-    private Long navirId;
+    private Long escaleId;
 
     private Boolean isDeleted = false;
 }

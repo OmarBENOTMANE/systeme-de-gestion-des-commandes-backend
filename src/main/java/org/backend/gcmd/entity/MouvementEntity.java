@@ -23,8 +23,8 @@ public class MouvementEntity {
     private LocalDate dateMouvement;
 
     @ManyToOne
-    @JoinColumn(name = "navire_id", nullable = true)
-    private NavireEntity navire;
+    @JoinColumn(name = "escale_id", nullable = true)
+    private EscaleEntity escale;
 
     private Boolean isDeleted = false;
 

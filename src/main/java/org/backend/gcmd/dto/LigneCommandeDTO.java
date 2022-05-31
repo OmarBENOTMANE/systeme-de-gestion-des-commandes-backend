@@ -51,4 +51,6 @@ public class LigneCommandeDTO {
 
     private Long genlbp;
 
+    private Boolean isSelected = true;
+
 }

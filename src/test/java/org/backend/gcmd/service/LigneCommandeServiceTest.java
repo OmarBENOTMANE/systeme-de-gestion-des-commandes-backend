@@ -22,6 +22,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class LigneCommandeServiceTest {
 
     Long idlignecmd = 1L;
+    Long idcommande = 1L;
+    Long idprestation = 1L;
 
     @Autowired
     LigneCommandeService ligneCommandeService;
@@ -65,7 +67,7 @@ class LigneCommandeServiceTest {
     void save_OK() {
         //given
         LigneCommandeDTO lcdto = LigneCommandeDTO.builder()
-                .id(idlignecmd).commandeId(idlignecmd).nombre(2).prestationId(idlignecmd).produit("produit").sensTrafic(SenstraficEnum.valueOf("EXPORT")).tarifUnifie(true).tcConv(false).tcSuppl("tc sup").tonnageMinimum(33).tonnageReel(44)
+                .id(idlignecmd).commandeId(idcommande).nombre(2).prestationId(idprestation).produit("produit").sensTrafic(SenstraficEnum.valueOf("EXPORT")).tarifUnifie(true).tcConv(false).tcSuppl("tc sup").tonnageMinimum(33).tonnageReel(44)
                 .build();
         //when
         LigneCommandeDTO result = ligneCommandeService.save(lcdto);
@@ -91,8 +93,6 @@ class LigneCommandeServiceTest {
         Assertions.assertThrows(IllegalNullParamException.class,
                 () -> ligneCommandeService.update(null));
         //given
-        Long idcommande = 1L;
-        Long idprestation = 1L;
         LigneCommandeDTO lcdto = LigneCommandeDTO.builder()
                 .id(idlignecmd).commandeId(idcommande).prestationId(idprestation).produit("produit modif")
                 .build();

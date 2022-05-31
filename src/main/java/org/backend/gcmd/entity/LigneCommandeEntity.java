@@ -63,5 +63,7 @@ public class LigneCommandeEntity {
 
     private Long genlbp;
 
+    private Boolean isSelected = true;
+
 }
 

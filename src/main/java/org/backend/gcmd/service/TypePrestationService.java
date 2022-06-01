@@ -1,9 +1,11 @@
 package org.backend.gcmd.service;
 
 import org.backend.gcmd.dto.TypePrestationDTO;
+import org.backend.gcmd.dto.UniteOrganisationelDTO;
 import org.backend.gcmd.entity.TypePrestationEntity;
 import org.backend.gcmd.exceptions.technical.ObjectNotFoundException;
 import org.backend.gcmd.mapper.TypePrestationMapper;
+import org.backend.gcmd.mapper.UniteOrganisationelMapper;
 import org.backend.gcmd.repository.TypePrestationRepository;
 import org.backend.gcmd.validator.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,11 @@ public class TypePrestationService {
     private TypePrestationRepository typePrestationRepository;
     @Autowired
     private TypePrestationMapper typePrestationMapper;
+
+    @Autowired
+    private UniteOrganisationelService uniteOrganisationelService;
+    @Autowired
+    private UniteOrganisationelMapper uniteOrganisationelMapper;
 
     public TypePrestationDTO findById(Long id) {
         Validate.notNull(id, "id mus be not null");
@@ -45,6 +52,10 @@ public class TypePrestationService {
         Validate.notNull(dto.getId(), "TypePrestationDTO id must be not null");
         findById(dto.getId());
         TypePrestationEntity entity = typePrestationMapper.convertToEntity(dto);
+        if(dto.getUniteOrganisationelId() != null) {
+            UniteOrganisationelDTO uniteOrganisationelDTO = uniteOrganisationelService.findById(dto.getUniteOrganisationelId());
+            entity.setUniteOrganisationel(uniteOrganisationelMapper.convertToEntity(uniteOrganisationelDTO));
+        }
         TypePrestationEntity saved = typePrestationRepository.save(entity);
         return typePrestationMapper.convertToDto(saved);
     }

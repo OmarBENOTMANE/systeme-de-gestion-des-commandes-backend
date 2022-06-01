@@ -5,5 +5,5 @@ values (1, 'unit1', false,'label1', 'typeUnt1');
 insert into gcmd_type_prestation (id, is_deleted, name, unite_organisationel_id)
 values (1, false, 'nametypeprestation', 1);
 
-insert into gcmd_soustypeprestation (id, is_deleted, name, typeprestation_id)
+insert into gcmd_soustypeprestation (id, is_deleted, name, type_prestation_id)
 values (1, false, 'name soustypeprestation', 1);

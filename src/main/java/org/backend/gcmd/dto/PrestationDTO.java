@@ -21,6 +21,8 @@ public class PrestationDTO {
 
     private Long soustypeprestationId;
 
+    private Long tarifId;
+
     private Boolean isDeleted = false;
 
 }

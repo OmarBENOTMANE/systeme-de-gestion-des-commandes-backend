@@ -24,8 +24,8 @@ public class SousTypePrestationEntity {
     private List<PrestationEntity> prestationList;
 
     @ManyToOne
-    @JoinColumn(name = "typeprestation_id", nullable = true)
-    private TypePrestationEntity typeprestation;
+    @JoinColumn(name = "type_prestation_id", nullable = true)
+    private TypePrestationEntity typePrestation;
 
     private Boolean isDeleted = false;
 

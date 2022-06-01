@@ -2,6 +2,7 @@ package org.backend.gcmd.controller;
 
 import org.backend.gcmd.dto.LigneCommandeDTO;
 import org.backend.gcmd.service.LigneCommandeService;
+import org.backend.gcmd.service.PrestationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +16,8 @@ public class LigneCommandeController {
 
     @Autowired
     private LigneCommandeService ligneCommandeService;
+    @Autowired
+    private PrestationService prestationService;
 
     @GetMapping("{id}")
     public ResponseEntity<LigneCommandeDTO> findById(@PathVariable Long id) {
@@ -48,5 +51,11 @@ public class LigneCommandeController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         ligneCommandeService.delete(id);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+    @PutMapping("{idPrestation}/generateForCmd/{idCmd}")
+    public ResponseEntity<LigneCommandeDTO> update(@PathVariable Long idPrestation,
+                                                   @PathVariable Long idCmd) {
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(prestationService.generateLcmdFromPrestationforCommande(idPrestation,idCmd));
     }
 }

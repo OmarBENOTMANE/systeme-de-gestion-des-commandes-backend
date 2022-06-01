@@ -121,9 +121,8 @@ public class EscaleService {
     public List<MouvementEntity> getMouvementList(Long id) {
         EscaleEntity escaleEntity = escaleRepository.findById(id).get();
         List<MouvementEntity> mouvementList = escaleEntity.getMouvementList();
-        mouvementList.forEach(mouvementEntity -> {
-            generateLigneCmd(mouvementMapper.convertToDto(mouvementEntity));
-        });
+        mouvementList.forEach(mouvementEntity ->
+                generateLigneCmd(mouvementMapper.convertToDto(mouvementEntity)));
         return mouvementList;
     }
 

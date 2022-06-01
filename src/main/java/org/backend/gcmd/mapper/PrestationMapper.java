@@ -25,6 +25,12 @@ public class PrestationMapper implements Mapper<PrestationDTO, PrestationEntity>
         dto.setTypePrestation(entity.getTypePrestation());
         dto.setTypeTarif(entity.getTypeTarif());
         dto.setIsDeleted(entity.getIsDeleted());
+        if (entity.getSoustypeprestation() != null) {
+            dto.setSoustypeprestationId(entity.getSoustypeprestation().getId());
+        }
+        if (entity.getTarif() != null) {
+            dto.setTarifId(entity.getTarif().getId());
+        }
         return dto;
     }
 

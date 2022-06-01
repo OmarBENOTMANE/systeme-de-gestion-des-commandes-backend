@@ -35,6 +35,9 @@ public class PrestationEntity {
     @JoinColumn(name = "soustypeprestation_id", nullable = true)
     private SousTypePrestationEntity soustypeprestation;
 
+    @OneToMany(mappedBy = "prestation")
+    private List<LigneCommandeEntity> ligneCommandeList;
+
     private Boolean isDeleted = false;
 
 

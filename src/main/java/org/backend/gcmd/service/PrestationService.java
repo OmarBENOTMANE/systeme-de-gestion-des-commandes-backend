@@ -1,9 +1,10 @@
 package org.backend.gcmd.service;
 
-import org.backend.gcmd.dto.PrestationDTO;
-import org.backend.gcmd.entity.PrestationEntity;
+import org.backend.gcmd.dto.*;
+import org.backend.gcmd.entity.*;
 import org.backend.gcmd.exceptions.technical.ObjectNotFoundException;
-import org.backend.gcmd.mapper.PrestationMapper;
+import org.backend.gcmd.mapper.*;
+import org.backend.gcmd.repository.LigneCommandeRepository;
 import org.backend.gcmd.repository.PrestationRepository;
 import org.backend.gcmd.validator.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,9 +22,33 @@ public class PrestationService {
 
     @Autowired
     private PrestationRepository prestationRepository;
-
     @Autowired
     private PrestationMapper prestationMapper;
+
+    @Autowired
+    private TarifService tarifService;
+    @Autowired
+    private TarifMapper tarifMapper;
+
+    @Autowired
+    private SousTypePrestationService sousTypePrestationService;
+    @Autowired
+    private SousTypePrestationMapper sousTypePrestationMapper;
+
+    @Autowired
+    private CommandeService commandeService;
+    @Autowired
+    private CommandeMapper commandeMapper;
+
+    @Autowired
+    private EscaleService escaleService;
+
+    @Autowired
+    private LigneCommandeService ligneCommandeService;
+    @Autowired
+    private LigneCommandeMapper ligneCommandeMapper;
+    @Autowired
+    private LigneCommandeRepository ligneCommandeRepository;
 
     public PrestationDTO findById(Long id) {
         Validate.notNull(id, "id mus be not null");
@@ -37,7 +63,6 @@ public class PrestationService {
     public PrestationDTO save(PrestationDTO dto) {
         Validate.notNull(dto, "PrestationDTO must be not null");
         PrestationEntity entity = prestationMapper.convertToEntity(dto);
-
         PrestationEntity saved = prestationRepository.save(entity);
         return prestationMapper.convertToDto(saved);
     }
@@ -47,6 +72,14 @@ public class PrestationService {
         Validate.notNull(dto.getId(), "PrestationDTO id must be not null");
         findById(dto.getId());
         PrestationEntity entity = prestationMapper.convertToEntity(dto);
+        if (dto.getTarifId() != null) {
+            TarifDTO tarifDTO = tarifService.findById(dto.getTarifId());
+            entity.setTarif(tarifMapper.convertToEntity(tarifDTO));
+        }
+        if (dto.getSoustypeprestationId() != null) {
+            SousTypePrestationDTO sousTypePrestationDTO = sousTypePrestationService.findById(dto.getSoustypeprestationId());
+            entity.setSoustypeprestation(sousTypePrestationMapper.convertToEntity(sousTypePrestationDTO));
+        }
         PrestationEntity saved = prestationRepository.save(entity);
         return prestationMapper.convertToDto(saved);
     }
@@ -62,6 +95,19 @@ public class PrestationService {
         dto.setIsDeleted(true);
         PrestationEntity entity = prestationMapper.convertToEntity(dto);
         prestationRepository.save(entity);
+    }
+
+    public LigneCommandeDTO generateLcmdFromPrestationforCommande(Long idPrestation, Long idCmd) {
+        PrestationDTO pdto = findById(idPrestation);
+        CommandeDTO cmdDto = commandeService.findById(idCmd);
+        LigneCommandeEntity lcmdEntity = new LigneCommandeEntity();
+        lcmdEntity.setDesignationPrestation(pdto.getDesignation());
+        if(cmdDto != null) {
+            lcmdEntity.setCommande(commandeMapper.convertToEntity(cmdDto));
+        }else
+            Validate.notNull(cmdDto, "cmdDto dosn't exist");
+        LigneCommandeEntity saved = ligneCommandeRepository.save(lcmdEntity);
+        return ligneCommandeMapper.convertToDto(saved);
     }
 
 }

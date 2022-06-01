@@ -59,7 +59,7 @@ class SousTypePrestationTest {
     void save_OK() {
         //given
         SousTypePrestationDTO udto = SousTypePrestationDTO.builder()
-                .id(idvar).name("soustype").typeprestationId(idvar)
+                .id(idvar).name("soustype").typePrestationId(idvar)
                 .build();
         //when
         SousTypePrestationDTO result = sousTypePrestationService.save(udto);
@@ -86,7 +86,7 @@ class SousTypePrestationTest {
                 () -> sousTypePrestationService.update(null));
         //given
         SousTypePrestationDTO stdto = SousTypePrestationDTO.builder()
-                .id(idvar).name("soustype").typeprestationId(idvar)
+                .id(idvar).name("soustype").typePrestationId(idvar)
                 .build();
         //when
         SousTypePrestationDTO result = sousTypePrestationService.update(stdto);

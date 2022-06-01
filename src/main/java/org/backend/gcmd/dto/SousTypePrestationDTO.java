@@ -15,7 +15,7 @@ public class SousTypePrestationDTO {
 
     private String name;
 
-    private Long typeprestationId;
+    private Long typePrestationId;
 
     private Boolean isDeleted = false;
 }

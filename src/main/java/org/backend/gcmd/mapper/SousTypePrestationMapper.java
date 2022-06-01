@@ -24,6 +24,9 @@ public class SousTypePrestationMapper implements Mapper<SousTypePrestationDTO, S
         dto.setId(entity.getId());
         dto.setName(entity.getName());
         dto.setIsDeleted(entity.getIsDeleted());
+        if (entity.getTypePrestation() != null) {
+            dto.setTypePrestationId(entity.getTypePrestation().getId());
+        }
         return dto;
     }
 

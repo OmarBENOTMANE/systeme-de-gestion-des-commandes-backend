@@ -20,7 +20,7 @@ public class TypePrestationEntity {
 
     private String name;
 
-    @OneToMany(mappedBy = "typeprestation")
+    @OneToMany(mappedBy = "typePrestation")
     private List<SousTypePrestationEntity> soustypeprestationList;
 
     @ManyToOne

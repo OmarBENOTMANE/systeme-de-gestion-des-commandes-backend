@@ -1,9 +1,12 @@
 package org.backend.gcmd.service;
 
 import org.backend.gcmd.dto.SousTypePrestationDTO;
+import org.backend.gcmd.dto.TypePrestationDTO;
 import org.backend.gcmd.entity.SousTypePrestationEntity;
+import org.backend.gcmd.entity.TypePrestationEntity;
 import org.backend.gcmd.exceptions.technical.ObjectNotFoundException;
 import org.backend.gcmd.mapper.SousTypePrestationMapper;
+import org.backend.gcmd.mapper.TypePrestationMapper;
 import org.backend.gcmd.repository.SousTypePrestationRepository;
 import org.backend.gcmd.validator.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,11 @@ public class SousTypePrestationService {
     private SousTypePrestationRepository sousTypePrestationRepository;
     @Autowired
     private SousTypePrestationMapper sousTypePrestationMapper;
+
+    @Autowired
+    private TypePrestationService typePrestationService;
+    @Autowired
+    private TypePrestationMapper typePrestationMapper;
 
     public SousTypePrestationDTO findById(Long id) {
         Validate.notNull(id, "id must be not null");
@@ -45,6 +53,10 @@ public class SousTypePrestationService {
         Validate.notNull(dto.getId(), "SousTypePrestationDTO id must be not null");
         findById(dto.getId());
         SousTypePrestationEntity entity = sousTypePrestationMapper.convertToEntity(dto);
+        if (dto.getTypePrestationId() != null) {
+            TypePrestationDTO typePrestationDTO = typePrestationService.findById(dto.getTypePrestationId());
+            entity.setTypePrestation(typePrestationMapper.convertToEntity(typePrestationDTO));
+        }
         SousTypePrestationEntity saved = sousTypePrestationRepository.save(entity);
         return sousTypePrestationMapper.convertToDto(saved);
 

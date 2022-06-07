@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.List;
 
 
 @NoArgsConstructor
@@ -19,14 +18,14 @@ public class EscaleDTO {
 
     private Integer numeroEscale;
 
-    private LocalDate lamanageDate;
+    private String numeroLlyod;
+
+    private LocalDate dateArrivee;
 
     private Boolean isDeleted = false;
 
     private Boolean isfactured = false;
 
     private Long navireId;
-
-    private String navireName;
 
 }

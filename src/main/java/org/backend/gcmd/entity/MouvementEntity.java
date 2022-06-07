@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Builder
 @Getter
@@ -18,15 +19,20 @@ public class MouvementEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String description;
+    private String codeMouvement;
 
-    private LocalDate dateMouvement;
+    private LocalDate date;
+
+    private LocalTime heure;
+
+    private String codePoste;
+
+    private Double metriquePoste;
+
+    private Boolean isDeleted = false;
 
     @ManyToOne
     @JoinColumn(name = "escale_id", nullable = true)
     private EscaleEntity escale;
-
-    private Boolean isDeleted = false;
-
 
 }

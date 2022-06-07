@@ -57,6 +57,18 @@ public class CommandeService {
     public CommandeDTO save(CommandeDTO dto) {
         Validate.notNull(dto, "CommandeDTO must be not null");
         CommandeEntity entity = commandeMapper.convertToEntity(dto);
+        if (dto.getBulltinPrestationId() != null) {
+            BulltinPrestationDTO bulltinPrestationDTO = bulltinPrestationService.findById(dto.getBulltinPrestationId());
+            entity.setBulltinPrestation(bulltinPrestationMapper.convertToEntity(bulltinPrestationDTO));
+        }
+        if (dto.getEscaleId() != null) {
+            EscaleDTO escaleDTO = escaleService.findById(dto.getEscaleId());
+            entity.setEscale(escaleMapper.convertToEntity(escaleDTO));
+        }
+        if (dto.getDevisId() != null) {
+            DevisDTO devisDTO = devisService.findById(dto.getDevisId());
+            entity.setDevis(devisMapper.convertToEntity(devisDTO));
+        }
         CommandeEntity saved = commandeRepository.save(entity);
         return commandeMapper.convertToDto(saved);
     }

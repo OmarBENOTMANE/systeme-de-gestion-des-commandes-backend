@@ -53,9 +53,4 @@ public class LigneCommandeController {
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
-    @PutMapping("{idPrestation}/generateForCmd/{idCmd}")
-    public ResponseEntity<LigneCommandeDTO> update(@PathVariable Long idPrestation,
-                                                   @PathVariable Long idCmd) {
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(prestationService.generateLcmdFromPrestationforCommande(idPrestation,idCmd));
-    }
 }

@@ -2,7 +2,6 @@ package org.backend.gcmd.controller;
 
 import org.backend.gcmd.dto.LigneCommandeDTO;
 import org.backend.gcmd.dto.PrestationDTO;
-import org.backend.gcmd.entity.CommandeEntity;
 import org.backend.gcmd.service.PrestationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/gcmd/v1/prestations")
@@ -45,6 +46,12 @@ public class PrestationController {
         prestationService.delete(id);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
 
+    }
+
+    @PutMapping("generateLigneCmdFromPrestation/{idCmd}")
+    public ResponseEntity<List<LigneCommandeDTO>> update(@PathVariable Long idCmd,
+                                                         @RequestBody List<Long> listPrestationsId) {
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(prestationService.traitementListPrestation(listPrestationsId, idCmd));
     }
 
 }

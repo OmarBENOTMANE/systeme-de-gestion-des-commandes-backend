@@ -21,7 +21,9 @@ public class EscaleEntity {
 
     private Integer numeroEscale;
 
-    private LocalDate lamanageDate;
+    private String numeroLlyod;
+
+    private LocalDate dateArrivee;
 
     private Boolean isDeleted = false;
 
@@ -32,7 +34,7 @@ public class EscaleEntity {
     private NavireEntity navire;
 
     @OneToMany(mappedBy = "escale", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<MarchandiseEntity> marchandiseList;
+    private List<ManifestEntity> manifestList;
 
     @OneToMany(mappedBy = "escale", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<DevisEntity> devisList;

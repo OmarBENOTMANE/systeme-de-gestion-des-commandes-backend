@@ -64,6 +64,6 @@ public class BulltinPrestationEntity {
 
     private Boolean isfactured = false;
 
-    private Boolean isSent= false;
+    private Boolean isSent = false;
 
 }

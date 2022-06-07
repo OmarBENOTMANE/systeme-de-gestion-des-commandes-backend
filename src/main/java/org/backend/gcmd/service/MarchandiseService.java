@@ -42,7 +42,15 @@ public class MarchandiseService {
 
     public MarchandiseDTO save(MarchandiseDTO dto) {
         Validate.notNull(dto, "MarchandiseDTO must be not null");
+        return getMarchandiseDTO(dto);
+    }
+
+    private MarchandiseDTO getMarchandiseDTO(MarchandiseDTO dto) {
         MarchandiseEntity entity = marchandiseMapper.convertToEntity(dto);
+        if (dto.getEscaleId() != null) {
+            EscaleDTO escaleDTO = escaleService.findById(dto.getEscaleId());
+            entity.setEscale(escaleMapper.convertToEntity(escaleDTO));
+        }
         MarchandiseEntity saved = marchandiseRepository.save(entity);
         return marchandiseMapper.convertToDto(saved);
     }
@@ -51,13 +59,7 @@ public class MarchandiseService {
         Validate.notNull(dto, "MarchandiseDTO must be not null");
         Validate.notNull(dto.getId(), "MarchandiseDTO id must be not null");
         findById(dto.getId());
-        MarchandiseEntity entity = marchandiseMapper.convertToEntity(dto);
-        if (dto.getEscaleId() != null) {
-            EscaleDTO escaleDTO = escaleService.findById(dto.getEscaleId());
-            entity.setEscale(escaleMapper.convertToEntity(escaleDTO));
-        }
-        MarchandiseEntity saved = marchandiseRepository.save(entity);
-        return marchandiseMapper.convertToDto(saved);
+        return getMarchandiseDTO(dto);
     }
 
     public Page<MarchandiseDTO> findAllByIsDeletedFalse(Pageable pageable) {

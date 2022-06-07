@@ -21,8 +21,10 @@ public class MouvementMapper implements Mapper<MouvementDTO, MouvementEntity> {
     public MouvementDTO convertToDto(MouvementEntity entity) {
         MouvementDTO dto = new MouvementDTO();
         dto.setId(entity.getId());
-        dto.setDateMouvement(entity.getDateMouvement());
-        dto.setDescription(entity.getDescription());
+        dto.setDate(entity.getDate());
+        dto.setHeure(entity.getHeure());
+        dto.setCodePoste(entity.getCodePoste());
+        dto.setMetriquePoste(entity.getMetriquePoste());
         dto.setIsDeleted(entity.getIsDeleted());
         if (entity.getEscale() != null)
             dto.setEscaleId(entity.getEscale().getId());
@@ -33,8 +35,10 @@ public class MouvementMapper implements Mapper<MouvementDTO, MouvementEntity> {
     public MouvementEntity convertToEntity(MouvementDTO dto) {
         MouvementEntity entity = new MouvementEntity();
         entity.setId(dto.getId());
-        entity.setDateMouvement(dto.getDateMouvement());
-        entity.setDescription(dto.getDescription());
+        entity.setDate(dto.getDate());
+        entity.setHeure(dto.getHeure());
+        entity.setCodePoste(dto.getCodePoste());
+        entity.setMetriquePoste(dto.getMetriquePoste());
         entity.setIsDeleted(dto.getIsDeleted());
         return entity;
     }

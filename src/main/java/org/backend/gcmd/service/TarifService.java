@@ -47,7 +47,6 @@ public class TarifService {
         TarifEntity entity = tarifMapper.convertToEntity(dto);
         TarifEntity saved = tarifRepository.save(entity);
         return tarifMapper.convertToDto(saved);
-
     }
 
     public Page<TarifDTO> findAllByIsDeletedFalse(Pageable pageable) {

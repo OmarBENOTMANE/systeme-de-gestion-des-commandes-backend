@@ -58,9 +58,17 @@ public class LigneCommandeService {
         }
     }
 
-    public LigneCommandeDTO save(LigneCommandeDTO ligneCommandeDTO) {
-        Validate.notNull(ligneCommandeDTO, "LigneCommandeDTO must be not null");
-        LigneCommandeEntity entity = ligneCommandeMapper.convertToEntity(ligneCommandeDTO);
+    public LigneCommandeDTO save(LigneCommandeDTO dto) {
+        Validate.notNull(dto, "LigneCommandeDTO must be not null");
+        LigneCommandeEntity entity = ligneCommandeMapper.convertToEntity(dto);
+        if (dto.getCommandeId() != null) {
+            CommandeDTO commandeDTO = commandeService.findById(dto.getCommandeId());
+            entity.setCommande(commandeMapper.convertToEntity(commandeDTO));
+        }
+        if (dto.getPrestationId() != null) {
+            PrestationDTO prestationDTO = prestationService.findById(dto.getPrestationId());
+            entity.setPrestation(prestationMapper.convertToEntity(prestationDTO));
+        }
         LigneCommandeEntity saved = ligneCommandeRepository.save(entity);
         return ligneCommandeMapper.convertToDto(saved);
     }

@@ -53,8 +53,8 @@ public class LigneCommandeEntity {
     @OneToMany(mappedBy = "commande", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<LigneCommandeEntity> ligneCommandeList;
 
-   @ManyToOne
-   @JoinColumn(name = "prestation_id", nullable = true)
+    @ManyToOne
+    @JoinColumn(name = "prestation_id", nullable = true)
     private PrestationEntity prestation;
 
     private Boolean isDeleted = false;

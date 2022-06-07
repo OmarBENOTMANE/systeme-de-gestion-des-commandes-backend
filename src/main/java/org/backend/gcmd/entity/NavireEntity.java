@@ -18,14 +18,19 @@ public class NavireEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String navireName;
-    private Integer numeroEscale;
-    private String consignataire;
-    private String etat;
+    private String name;
+
+    private String numeroLlyod;
+
+    private Double longeur;
+
+    private Double tiranteau;
+
+    private String typeNavire;
+
+    private Boolean isDeleted = false;
 
     @OneToMany(mappedBy = "navire")
     private List<EscaleEntity> escaleList;
-
-    private Boolean isDeleted = false;
 
 }

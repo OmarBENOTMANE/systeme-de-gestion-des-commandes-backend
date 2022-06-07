@@ -1,5 +1,6 @@
 package org.backend.gcmd.controller;
 
+import org.backend.gcmd.dto.CommandeDTO;
 import org.backend.gcmd.dto.EscaleDTO;
 import org.backend.gcmd.service.EscaleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,9 +45,10 @@ public class EscaleController {
         escaleService.delete(id);
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
-    @PutMapping("{id}/genererCommandeForEscale")
-    public ResponseEntity<EscaleDTO> genererCommandeForEscale(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(escaleService.generateCmd(id));
+
+    @PutMapping("{escaleId}/genererCommandeForEscale")
+    public ResponseEntity<CommandeDTO> genererCommandeForEscale(@PathVariable Long escaleId) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(escaleService.generateCmd(escaleId));
     }
 
     @GetMapping("findAllNavireAppareiller")

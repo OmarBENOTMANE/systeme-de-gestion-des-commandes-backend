@@ -22,13 +22,12 @@ public class EscaleMapper implements Mapper<EscaleDTO, EscaleEntity> {
         EscaleDTO dto = new EscaleDTO();
         dto.setId(entity.getId());
         dto.setNumeroEscale(entity.getNumeroEscale());
+        dto.setDateArrivee(entity.getDateArrivee());
+        dto.setNumeroLlyod(entity.getNumeroLlyod());
         dto.setIsDeleted(entity.getIsDeleted());
+        dto.setIsfactured(entity.getIsfactured());
         if (entity.getNavire() != null)
             dto.setNavireId(entity.getNavire().getId());
-        dto.setIsfactured(entity.getIsfactured());
-        dto.setLamanageDate(entity.getLamanageDate());
-        if (entity.getNavire() != null)
-            dto.setNavireName(entity.getNavire().getNavireName());
         return dto;
     }
 
@@ -37,9 +36,10 @@ public class EscaleMapper implements Mapper<EscaleDTO, EscaleEntity> {
         EscaleEntity entity = new EscaleEntity();
         entity.setId(dto.getId());
         entity.setNumeroEscale(dto.getNumeroEscale());
+        entity.setNumeroLlyod(dto.getNumeroLlyod());
+        entity.setDateArrivee(dto.getDateArrivee());
         entity.setIsDeleted(dto.getIsDeleted());
         entity.setIsfactured(dto.getIsfactured());
-        entity.setLamanageDate(dto.getLamanageDate());
         return entity;
     }
 

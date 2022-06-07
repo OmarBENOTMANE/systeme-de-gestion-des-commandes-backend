@@ -12,10 +12,16 @@ import lombok.NoArgsConstructor;
 public class NavireDTO {
 
     private Long id;
-    private String navireName;
-    private Integer numeroEscale;
-    private String consignataire;
-    private String etat;
+
+    private String name;
+
+    private String numeroLlyod;
+
+    private Double longeur;
+
+    private Double tiranteau;
+
+    private String typeNavire;
 
     private Boolean isDeleted = false;
 }

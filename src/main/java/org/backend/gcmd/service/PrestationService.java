@@ -1,7 +1,8 @@
 package org.backend.gcmd.service;
 
 import org.backend.gcmd.dto.*;
-import org.backend.gcmd.entity.*;
+import org.backend.gcmd.entity.LigneCommandeEntity;
+import org.backend.gcmd.entity.PrestationEntity;
 import org.backend.gcmd.exceptions.technical.ObjectNotFoundException;
 import org.backend.gcmd.mapper.*;
 import org.backend.gcmd.repository.LigneCommandeRepository;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,11 +43,6 @@ public class PrestationService {
     private CommandeMapper commandeMapper;
 
     @Autowired
-    private EscaleService escaleService;
-
-    @Autowired
-    private LigneCommandeService ligneCommandeService;
-    @Autowired
     private LigneCommandeMapper ligneCommandeMapper;
     @Autowired
     private LigneCommandeRepository ligneCommandeRepository;
@@ -63,6 +60,14 @@ public class PrestationService {
     public PrestationDTO save(PrestationDTO dto) {
         Validate.notNull(dto, "PrestationDTO must be not null");
         PrestationEntity entity = prestationMapper.convertToEntity(dto);
+        if (dto.getTarifId() != null) {
+            TarifDTO tarifDTO = tarifService.findById(dto.getTarifId());
+            entity.setTarif(tarifMapper.convertToEntity(tarifDTO));
+        }
+        if (dto.getSoustypeprestationId() != null) {
+            SousTypePrestationDTO sousTypePrestationDTO = sousTypePrestationService.findById(dto.getSoustypeprestationId());
+            entity.setSoustypeprestation(sousTypePrestationMapper.convertToEntity(sousTypePrestationDTO));
+        }
         PrestationEntity saved = prestationRepository.save(entity);
         return prestationMapper.convertToDto(saved);
     }
@@ -102,12 +107,19 @@ public class PrestationService {
         CommandeDTO cmdDto = commandeService.findById(idCmd);
         LigneCommandeEntity lcmdEntity = new LigneCommandeEntity();
         lcmdEntity.setDesignationPrestation(pdto.getDesignation());
-        if(cmdDto != null) {
+        if (cmdDto != null) {
             lcmdEntity.setCommande(commandeMapper.convertToEntity(cmdDto));
-        }else
-            Validate.notNull(cmdDto, "cmdDto dosn't exist");
+        }
         LigneCommandeEntity saved = ligneCommandeRepository.save(lcmdEntity);
         return ligneCommandeMapper.convertToDto(saved);
     }
 
+    public List<LigneCommandeDTO> traitementListPrestation(List<Long> listPrestationsId, Long idCmd) {
+        List<LigneCommandeDTO> lcmdDtos = new ArrayList<>();
+        listPrestationsId.forEach(idPrestation -> {
+            LigneCommandeDTO ligneCommandeDTO = generateLcmdFromPrestationforCommande(idPrestation, idCmd);
+            lcmdDtos.add(ligneCommandeDTO);
+        });
+        return lcmdDtos;
+    }
 }

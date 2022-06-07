@@ -1,7 +1,6 @@
 package org.backend.gcmd.service;
 
 
-import org.backend.gcmd.dto.CommandeDTO;
 import org.backend.gcmd.dto.MouvementDTO;
 import org.backend.gcmd.exceptions.technical.IllegalNullParamException;
 import org.backend.gcmd.exceptions.technical.ObjectNotFoundException;
@@ -44,7 +43,6 @@ class MouvementServiceTest {
         MouvementDTO mdto = mouvementService.findById(1L);
         Assertions.assertNotNull(mdto);
         Assertions.assertEquals(1L, mdto.getId());
-
     }
 
     @Test
@@ -64,7 +62,7 @@ class MouvementServiceTest {
     void save_OK() {
         //given
         MouvementDTO bpdto = MouvementDTO.builder()
-                .id(1L).dateMouvement(LocalDate.now()).description("des").escaleId(1L)
+                .id(idMouvement).date(LocalDate.now()).codePoste("c p").escaleId(1L)
                 .build();
         //when
         MouvementDTO result = mouvementService.save(bpdto);
@@ -91,13 +89,14 @@ class MouvementServiceTest {
                 () -> mouvementService.update(null));
         //given
         MouvementDTO mdto = MouvementDTO.builder()
-                .id(1L).dateMouvement(LocalDate.now()).description("acostage").escaleId(1L)
+                .id(idMouvement).metriquePoste(2.3).escaleId(1L)
                 .build();
         //when
         MouvementDTO result = mouvementService.update(mdto);
         //then
         Assertions.assertNotNull(result.getId());
     }
+
     @Test
     void update_Ok_escaleId() {
         Long idescale = 1L;

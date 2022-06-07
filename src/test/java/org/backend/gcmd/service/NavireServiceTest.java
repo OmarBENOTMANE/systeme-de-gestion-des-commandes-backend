@@ -12,15 +12,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.jdbc.Sql;
 
-import java.time.LocalDate;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Sql(scripts = "classpath:/fixtures/clear.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = "classpath:/fixtures/navire.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 class NavireServiceTest {
-
 
     @Autowired
     NavireService navireService;
@@ -44,7 +41,6 @@ class NavireServiceTest {
         NavireDTO ndto = navireService.findById(idnavire);
         Assertions.assertNotNull(ndto);
         Assertions.assertEquals(idnavire, ndto.getId());
-
     }
 
     @Test
@@ -64,13 +60,13 @@ class NavireServiceTest {
     void save_OK() {
         //given
         NavireDTO ndto = NavireDTO.builder()
-                .id(idnavire).etat("non facturé")
+                .id(idnavire).name("navname").longeur(2.3)
                 .build();
         //when
         NavireDTO result = navireService.save(ndto);
         //then
         Assertions.assertNotNull(result.getId());
-        assertEquals("non facturé", result.getEtat());
+        assertEquals("navname", result.getName());
     }
 
     //update
@@ -92,14 +88,14 @@ class NavireServiceTest {
                 () -> navireService.update(null));
         //given
         NavireDTO ndto = NavireDTO.builder()
-                .id(idnavire).etat("facturé").numeroEscale(2)
+                .id(idnavire).tiranteau(4.5).typeNavire("typeNavire")
                 .build();
         //when
         NavireDTO result = navireService.update(ndto);
         //then
         Assertions.assertNotNull(result.getId());
-        assertEquals("facturé", result.getEtat());
-        assertEquals(2, result.getNumeroEscale());
+        assertEquals(4.5, result.getTiranteau());
+        assertEquals("typeNavire", result.getTypeNavire());
     }
 
     @Test

@@ -33,5 +33,4 @@ public class ClientEntity {
 
     private Boolean isDeleted = false;
 
-
 }

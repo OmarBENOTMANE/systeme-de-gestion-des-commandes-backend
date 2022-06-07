@@ -37,7 +37,6 @@ public class NavireService {
     public NavireDTO save(NavireDTO dto) {
         Validate.notNull(dto, "NavireDTO must be not null");
         NavireEntity entity = navireMapper.convertToEntity(dto);
-
         NavireEntity saved = navireRepository.save(entity);
         return navireMapper.convertToDto(saved);
     }

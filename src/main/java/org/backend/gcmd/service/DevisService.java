@@ -46,7 +46,6 @@ public class DevisService {
         Validate.notNull(dto.getId(), "DevisDTO id must be not null");
         findById(dto.getId());
         DevisEntity entity = devisMapper.convertToEntity(dto);
-
         DevisEntity saved = devisRepository.save(entity);
         return devisMapper.convertToDto(saved);
     }

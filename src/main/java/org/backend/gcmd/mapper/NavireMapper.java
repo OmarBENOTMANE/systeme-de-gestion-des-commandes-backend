@@ -21,10 +21,11 @@ public class NavireMapper implements Mapper<NavireDTO, NavireEntity> {
     public NavireDTO convertToDto(NavireEntity entity) {
         NavireDTO dto = new NavireDTO();
         dto.setId(entity.getId());
-        dto.setConsignataire(entity.getConsignataire());
-        dto.setEtat(entity.getEtat());
-        dto.setNavireName(entity.getNavireName());
-        dto.setNumeroEscale(entity.getNumeroEscale());
+        dto.setName(entity.getName());
+        dto.setNumeroLlyod(entity.getNumeroLlyod());
+        dto.setLongeur(entity.getLongeur());
+        dto.setTiranteau(entity.getTiranteau());
+        dto.setTypeNavire(entity.getTypeNavire());
         dto.setIsDeleted(entity.getIsDeleted());
         return dto;
     }
@@ -33,10 +34,11 @@ public class NavireMapper implements Mapper<NavireDTO, NavireEntity> {
     public NavireEntity convertToEntity(NavireDTO dto) {
         NavireEntity entity = new NavireEntity();
         entity.setId(dto.getId());
-        entity.setConsignataire(dto.getConsignataire());
-        entity.setEtat(dto.getEtat());
-        entity.setNavireName(dto.getNavireName());
-        entity.setNumeroEscale(dto.getNumeroEscale());
+        entity.setName(dto.getName());
+        entity.setNumeroLlyod(dto.getNumeroLlyod());
+        entity.setLongeur(dto.getLongeur());
+        entity.setTypeNavire(dto.getTypeNavire());
+        entity.setTiranteau(dto.getTiranteau());
         entity.setIsDeleted(dto.getIsDeleted());
         return entity;
     }

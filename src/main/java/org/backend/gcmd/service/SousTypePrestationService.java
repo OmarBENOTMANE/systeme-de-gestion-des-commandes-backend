@@ -3,7 +3,6 @@ package org.backend.gcmd.service;
 import org.backend.gcmd.dto.SousTypePrestationDTO;
 import org.backend.gcmd.dto.TypePrestationDTO;
 import org.backend.gcmd.entity.SousTypePrestationEntity;
-import org.backend.gcmd.entity.TypePrestationEntity;
 import org.backend.gcmd.exceptions.technical.ObjectNotFoundException;
 import org.backend.gcmd.mapper.SousTypePrestationMapper;
 import org.backend.gcmd.mapper.TypePrestationMapper;
@@ -44,6 +43,10 @@ public class SousTypePrestationService {
     public SousTypePrestationDTO save(SousTypePrestationDTO dto) {
         Validate.notNull(dto, "SousTypePrestationDTO must be not null");
         SousTypePrestationEntity entity = sousTypePrestationMapper.convertToEntity(dto);
+        if (dto.getTypePrestationId() != null) {
+            TypePrestationDTO typePrestationDTO = typePrestationService.findById(dto.getTypePrestationId());
+            entity.setTypePrestation(typePrestationMapper.convertToEntity(typePrestationDTO));
+        }
         SousTypePrestationEntity saved = sousTypePrestationRepository.save(entity);
         return sousTypePrestationMapper.convertToDto(saved);
     }

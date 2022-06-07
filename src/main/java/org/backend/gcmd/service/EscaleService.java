@@ -16,6 +16,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +38,7 @@ public class EscaleService {
     @Autowired
     private CommandeRepository commandeRepository;
     @Autowired
-    private CommandeMapper commandeMapper   ;
+    private CommandeMapper commandeMapper;
 
     @Autowired
     private LigneCommandeRepository ligneCommandeRepository;
@@ -59,6 +61,10 @@ public class EscaleService {
     public EscaleDTO save(EscaleDTO dto) {
         Validate.notNull(dto, "save: EscaleDTO must be not null");
         EscaleEntity entity = escaleMapper.convertToEntity(dto);
+        if (dto.getNavireId() != null) {
+            NavireDTO navireDTO = navireService.findById(dto.getNavireId());
+            entity.setNavire(navireMapper.convertToEntity(navireDTO));
+        }
         EscaleEntity saved = escaleRepository.save(entity);
         return escaleMapper.convertToDto(saved);
     }
@@ -90,20 +96,19 @@ public class EscaleService {
         escaleRepository.save(entity);
     }
 
-    public EscaleDTO generateCmd(Long id) {
+    public CommandeDTO generateCmd(Long id) {
         Validate.notNull(id, "generateCmd: EscaleDTO must be not null");
-        EscaleDTO edto = findById(id);
-        createCmd(edto);
-        getMouvementList(id);
-        NavireDTO navireDTO = navireService.findById(edto.getNavireId());
-        edto.setNumeroEscale(navireDTO.getNumeroEscale());
-        update(edto);
-        return edto;
+        EscaleDTO eDto = findById(id);
+        CommandeDTO cmdDto = createCmd(eDto);
+        List<MouvementDTO> mvDtos = getMouvementDtoList(id);
+        mvDtos.forEach(mv -> generateLigneCmd(mv, cmdDto));
+        return cmdDto;
     }
+
 
     public CommandeDTO createCmd(EscaleDTO escaleDTO) {
         CommandeEntity entity = new CommandeEntity();
-        entity.setDateAmarage(escaleDTO.getLamanageDate());
+        // entity.setDateAmarage(escaleDTO.getLamanageDate());
         entity.setNumeroEscale(escaleDTO.getNumeroEscale());
         entity.setIsfactured(escaleDTO.getIsfactured());
         entity.setEscale(escaleMapper.convertToEntity(escaleDTO));
@@ -111,23 +116,26 @@ public class EscaleService {
         return commandeMapper.convertToDto(saved);
     }
 
-    public LigneCommandeDTO generateLigneCmd(MouvementDTO mouvementDTO) {
+    public LigneCommandeDTO generateLigneCmd(MouvementDTO mouvementDTO, CommandeDTO commandeDTO) {
         LigneCommandeEntity lcEntity = new LigneCommandeEntity();
-        lcEntity.setDescription(mouvementDTO.getDescription());
+        // lcEntity.setDescription(mouvementDTO.getDescription());
+        lcEntity.setCommande(commandeMapper.convertToEntity(commandeDTO));
         LigneCommandeEntity saved = ligneCommandeRepository.save(lcEntity);
         return ligneCommandeMapper.convertToDto(saved);
     }
 
-    public List<MouvementEntity> getMouvementList(Long id) {
+    public List<MouvementDTO> getMouvementDtoList(Long id) {
         EscaleEntity escaleEntity = escaleRepository.findById(id).get();
         List<MouvementEntity> mouvementList = escaleEntity.getMouvementList();
+        List<MouvementDTO> mouvementDTO = new ArrayList<>();
         mouvementList.forEach(mouvementEntity ->
-                generateLigneCmd(mouvementMapper.convertToDto(mouvementEntity)));
-        return mouvementList;
+                mouvementDTO.add(mouvementMapper.convertToDto(mouvementEntity)));
+        return mouvementDTO;
     }
+
 
     public Page<EscaleDTO> findAllNavireAppareiller(Pageable pageable) {
         Page<EscaleEntity> page = escaleRepository.findAllNavireAppareiller(pageable);
         return escaleMapper.convertToPageDto(page);
     }
-    }
+}

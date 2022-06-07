@@ -4,6 +4,7 @@ import org.backend.gcmd.dto.LigneCommandeDTO;
 import org.backend.gcmd.entity.LigneCommandeEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

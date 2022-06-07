@@ -18,9 +18,9 @@ import static org.junit.jupiter.api.Assertions.*;
 @Sql(scripts = "classpath:/fixtures/ligneDevis.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 class LigneDevisServiceTest {
 
+    private final Long idlignedevis = 1L;
     @Autowired
     LigneDevisService ligneDevisService;
-    private final Long idlignedevis = 1L;
 
     @Test
     void serviceInjection() {

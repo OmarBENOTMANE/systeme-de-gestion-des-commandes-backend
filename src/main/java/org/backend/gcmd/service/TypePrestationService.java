@@ -43,6 +43,10 @@ public class TypePrestationService {
     public TypePrestationDTO save(TypePrestationDTO dto) {
         Validate.notNull(dto, "TypePrestationDTO must be not null");
         TypePrestationEntity entity = typePrestationMapper.convertToEntity(dto);
+        if (dto.getUniteOrganisationelId() != null) {
+            UniteOrganisationelDTO uniteOrganisationelDTO = uniteOrganisationelService.findById(dto.getUniteOrganisationelId());
+            entity.setUniteOrganisationel(uniteOrganisationelMapper.convertToEntity(uniteOrganisationelDTO));
+        }
         TypePrestationEntity saved = typePrestationRepository.save(entity);
         return typePrestationMapper.convertToDto(saved);
     }
@@ -52,7 +56,7 @@ public class TypePrestationService {
         Validate.notNull(dto.getId(), "TypePrestationDTO id must be not null");
         findById(dto.getId());
         TypePrestationEntity entity = typePrestationMapper.convertToEntity(dto);
-        if(dto.getUniteOrganisationelId() != null) {
+        if (dto.getUniteOrganisationelId() != null) {
             UniteOrganisationelDTO uniteOrganisationelDTO = uniteOrganisationelService.findById(dto.getUniteOrganisationelId());
             entity.setUniteOrganisationel(uniteOrganisationelMapper.convertToEntity(uniteOrganisationelDTO));
         }

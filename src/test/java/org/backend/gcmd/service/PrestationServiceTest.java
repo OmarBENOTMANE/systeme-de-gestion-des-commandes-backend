@@ -18,7 +18,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @Sql(scripts = "classpath:/fixtures/prestation.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 class PrestationServiceTest {
 
-    Long idvar = 1L;
+    Long idPrestation = 1L;
+    Long idSoustypeprestation = 1L;
 
     @Autowired
     PrestationService prestationService;
@@ -37,9 +38,9 @@ class PrestationServiceTest {
 
     @Test
     void findById_OK_ID_Found() {
-        PrestationDTO pdto = prestationService.findById(idvar);
+        PrestationDTO pdto = prestationService.findById(idPrestation);
         Assertions.assertNotNull(pdto);
-        Assertions.assertEquals(idvar, pdto.getId());
+        Assertions.assertEquals(idPrestation, pdto.getId());
     }
 
     @Test
@@ -59,7 +60,7 @@ class PrestationServiceTest {
     void save_OK() {
         //given
         PrestationDTO pdto = PrestationDTO.builder()
-                .id(idvar).designation("des").soustypeprestationId(idvar).typePrestation("type").typeTarif("tarif").isDeleted(false)
+                .id(idPrestation).designation("des").soustypeprestationId(idSoustypeprestation).typePrestation("type").typeTarif("tarif").isDeleted(false)
                 .build();
         //when
         PrestationDTO result = prestationService.save(pdto);
@@ -86,7 +87,7 @@ class PrestationServiceTest {
                 () -> prestationService.update(null));
         //given
         PrestationDTO pdto = PrestationDTO.builder()
-                .id(idvar).designation("des").soustypeprestationId(idvar).typePrestation("type modif").typeTarif("tarif")
+                .id(idPrestation).designation("des").soustypeprestationId(idSoustypeprestation).typePrestation("type modif").typeTarif("tarif")
                 .build();
         //when
         PrestationDTO result = prestationService.update(pdto);
@@ -102,11 +103,11 @@ class PrestationServiceTest {
 
     @Test
     void delete_ok() {
-        PrestationDTO pdto = prestationService.findById(idvar);
+        PrestationDTO pdto = prestationService.findById(idPrestation);
         assertNotNull(pdto);
-        assertEquals(idvar, pdto.getId());
-        prestationService.delete(idvar);
-        Assertions.assertTrue(prestationService.findById(idvar).getIsDeleted());
+        assertEquals(idPrestation, pdto.getId());
+        prestationService.delete(idPrestation);
+        Assertions.assertTrue(prestationService.findById(idPrestation).getIsDeleted());
         PrestationDTO result = prestationService.save(pdto);
         assertNotNull(result.getId());
     }
@@ -117,7 +118,14 @@ class PrestationServiceTest {
         assertNotNull(page);
         assertEquals(1, page.getContent().size());
         PrestationDTO pdto = page.getContent().get(0);
-        assertEquals(idvar, pdto.getId());
+        assertEquals(idPrestation, pdto.getId());
         assertEquals(false, pdto.getIsDeleted());
     }
+
+//    @Test
+//    void generateLcmdFromPrestationforCommande() {
+//        PrestationDTO pdto = prestationService.findById();
+//        Assertions.assertNotNull(pdto);
+//        Assertions.assertEquals(, pdto.getId());
+//    }
 }

@@ -24,6 +24,7 @@ public class LigneBpService {
     BulltinPrestationService bulltinPrestationService;
     @Autowired
     BulltinPrestationMapper bulltinPrestationMapper;
+
     @Autowired
     private LigneBpRepository ligneBpRepository;
     @Autowired
@@ -42,6 +43,10 @@ public class LigneBpService {
     public LigneBpDTO save(LigneBpDTO dto) {
         Validate.notNull(dto, "LigneBpDTO must be not null");
         LigneBpEntity entity = ligneBpMapper.convertToEntity(dto);
+        if (dto.getBulltinPrestationId() != null) {
+            BulltinPrestationDTO bulltinPrestationDTO = bulltinPrestationService.findById(dto.getBulltinPrestationId());
+            entity.setBulltinPrestation(bulltinPrestationMapper.convertToEntity(bulltinPrestationDTO));
+        }
         LigneBpEntity saved = ligneBpRepository.save(entity);
         return ligneBpMapper.convertToDto(saved);
     }

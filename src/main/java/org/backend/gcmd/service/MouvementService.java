@@ -1,6 +1,5 @@
 package org.backend.gcmd.service;
 
-import org.backend.gcmd.dto.BulltinPrestationDTO;
 import org.backend.gcmd.dto.EscaleDTO;
 import org.backend.gcmd.dto.MouvementDTO;
 import org.backend.gcmd.entity.MouvementEntity;
@@ -44,6 +43,10 @@ public class MouvementService {
     public MouvementDTO save(MouvementDTO dto) {
         Validate.notNull(dto, "MouvementDTO must be not null");
         MouvementEntity entity = mouvementMapper.convertToEntity(dto);
+        if (dto.getEscaleId() != null) {
+            EscaleDTO escaleDTO = escaleService.findById(dto.getEscaleId());
+            entity.setEscale(escaleMapper.convertToEntity(escaleDTO));
+        }
         MouvementEntity saved = mouvementRepository.save(entity);
         return mouvementMapper.convertToDto(saved);
     }

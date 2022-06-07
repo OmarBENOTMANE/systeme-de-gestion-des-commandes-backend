@@ -64,4 +64,9 @@ public class BulltinPrestationService {
         BulltinPrestationEntity entity = bulltinPrestationMapper.convertToEntity(dto);
         bulltinPrestationRepository.save(entity);
     }
+
+    public Page<BulltinPrestationDTO> findAllBpNotFacturedForEscale(Pageable pageable) {
+        Page<BulltinPrestationEntity> page = bulltinPrestationRepository.findAllBpNotFacturedForEscale(pageable);
+        return bulltinPrestationMapper.convertToPageDto(page);
+    }
 }

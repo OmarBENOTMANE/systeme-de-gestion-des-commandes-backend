@@ -46,4 +46,8 @@ public class BulltinPrestationController {
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
+    @GetMapping("findAllBpNotFacturedForEscale")
+    public ResponseEntity<Page<BulltinPrestationDTO>> findAllBpNotFacturedForEscale(Pageable pageable) {
+        return ResponseEntity.status(HttpStatus.OK).body(bulltinPrestationService.findAllBpNotFacturedForEscale(pageable));
+    }
 }

@@ -1,12 +1,7 @@
 package org.backend.gcmd.service;
 
 import org.backend.gcmd.controller.EscaleController;
-import org.backend.gcmd.dto.CommandeDTO;
 import org.backend.gcmd.dto.EscaleDTO;
-import org.backend.gcmd.dto.MouvementDTO;
-import org.backend.gcmd.entity.CommandeEntity;
-import org.backend.gcmd.entity.EscaleEntity;
-import org.backend.gcmd.entity.MouvementEntity;
 import org.backend.gcmd.exceptions.technical.IllegalNullParamException;
 import org.backend.gcmd.exceptions.technical.ObjectNotFoundException;
 import org.junit.jupiter.api.Assertions;
@@ -18,7 +13,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -74,13 +68,13 @@ class EscaleServiceTest {
     void save_OK() {
         //given
         EscaleDTO edto = EscaleDTO.builder()
-                .id(idescale).numeroEscale(2).isDeleted(false).lamanageDate(LocalDate.ofEpochDay(2020-01-01))
+                .id(idescale).numeroEscale(2).isDeleted(false).dateArrivee(LocalDate.ofEpochDay(2020 - 01 - 01))
                 .build();
         //when
         EscaleDTO result = escaleService.save(edto);
         //then
         Assertions.assertNotNull(result.getId());
-        assertEquals(2020-01-01, result.getLamanageDate().toEpochDay());
+        assertEquals(2020 - 01 - 01, result.getDateArrivee().toEpochDay());
     }
 
     //update
@@ -102,14 +96,14 @@ class EscaleServiceTest {
                 () -> escaleService.update(null));
         //given
         EscaleDTO edto = EscaleDTO.builder()
-                .id(idescale).numeroEscale(3).isDeleted(false)
+                .id(idescale).numeroEscale(3).numeroLlyod("NLY231")
                 .build();
         //when
         EscaleDTO result = escaleService.update(edto);
         //then
         Assertions.assertNotNull(result.getId());
         assertEquals(3, result.getNumeroEscale());
-
+        assertEquals("NLY231", result.getNumeroLlyod());
     }
 
     @Test
@@ -120,7 +114,6 @@ class EscaleServiceTest {
         assertNotNull(edto);
         assertEquals(idescale, result.getId());
         assertEquals(1L, result.getNavireId());
-        assertEquals("navname", result.getNavireName());
     }
 
     @Test
@@ -160,12 +153,12 @@ class EscaleServiceTest {
         assertNotEquals(true, eDTO.getIsDeleted());
     }
 
-    @Test
-    void generateCmd   () {
-
-
-
-    }
+//    @Test
+//    void generateCmd   () {
+//
+//
+//
+//    }
 //    EscaleDTO edto = EscaleDTO.builder().id(idescale).navireId(1L).build();
 //        escaleService.update(edto);
 //    EscaleDTO result = escaleService.findById(idescale);
